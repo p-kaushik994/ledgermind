@@ -105,7 +105,7 @@ without any local setup.
 
 ### 🌐 Launch the Application
 
-**Live Website:** https://ledgermind.onrender.com
+**Live Website:** (https://ledgermind-2ybj.onrender.com/)
 
 The deployed application provides an interactive demonstration of:
 
