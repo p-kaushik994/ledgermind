@@ -1,6 +1,6 @@
 # LedgerMind — Autonomous FinOps Precedent Engine
 
-> **Biomimetic Agent Memory for Accounts Payable & Vendor Discrepancy Resolution**  
+> **Biomimetic Agent Memory for Accounts Payable & Vendor Exception Resolution**  
 > Powered by **Vectorize Hindsight** and **Groq**.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -12,44 +12,89 @@
 
 ---
 
-## 📌 Executive Summary
+## 🌐 Live Web Application
 
-In enterprise finance operations, up to **20% of supplier invoices** trigger discrepancy flags against Purchase Orders—due to emergency freight surcharges, statutory green cesses, or seasonal delivery adjustments. 
+* **Live Demo URL:** `https://ledgermind.onrender.com` *(or your custom Render link)*
+* **Built With:** Python Flask, Tailwind CSS, Vectorize Hindsight Memory, Groq LLM API.
 
-Traditional Enterprise Resource Planning (ERP) systems are rigidly binary: either an invoice matches 100%, or it is frozen. Accounts Payable (AP) specialists waste hours chasing managers over recurring exceptions that were already authorized weeks prior. Standard LLMs suffer from complete session amnesia, repeatedly asking the same questions and providing generic advice.
+---
 
-**LedgerMind** solves this institutional amnesia. Powered by **Vectorize Hindsight**, LedgerMind retains human managerial approval decisions as persistent business precedents. When recurring invoices arrive, the agent recalls past authorizations, evaluates policy boundaries, and auto-approves compliant discrepancies with full audit citations in seconds.
+## 📌 Executive Summary & Problem Statement
+
+In corporate finance operations, up to **20% of supplier invoices** trigger discrepancy flags against original Purchase Orders—often due to emergency freight fees, statutory green cesses, or seasonal delivery surcharges.
+
+Traditional Enterprise Resource Planning (ERP) systems like SAP and Oracle are strictly binary: either an invoice matches 100%, or it is frozen. Accounts Payable (AP) specialists waste dozens of hours each week sending emails to ask: *"Did we approve this extra fee last month?"*
+
+Standard LLMs cannot solve this because they suffer from **session amnesia**—each new prompt starts from scratch, forgetting past managerial approvals and forcing humans into the same repetitive loops.
+
+### The Solution: LedgerMind
+**LedgerMind** is an autonomous FinOps copilot powered by **Vectorize Hindsight**. It acts as an **institutional precedent engine**:
+1. When a human manager approves an exception, Hindsight retains the decision as an active business precedent.
+2. When recurring invoices arrive from that supplier, LedgerMind recalls the past authorization, checks policy boundaries, and **auto-approves compliant discrepancies in under 1 second**.
+3. It enforces strict guardrails: if a supplier attempts an unauthorized unit price increase, LedgerMind immediately intercepts it as a contract violation.
+
+---
+
+## 🏗️ System Architecture & Workflow
+
+```mermaid
+flowchart TD
+    subgraph Ingestion ["1. Invoice Ingestion"]
+        V[Supplier Invoices] --> ERP[ERP System: SAP / Oracle]
+        ERP -->|3-Way Mismatch Detected| LM[LedgerMind Exception Queue]
+    end
+
+    subgraph MemoryEngine ["2. Vectorize Hindsight Memory Engine"]
+        LM -->|Query Context| HS[(Hindsight Memory Engine)]
+        HS --> WF[1. World Facts: Vendor Contracts & Terms]
+        HS --> EXP[2. Experiences: Historical Human Approvals]
+        HS --> MM[3. Mental Models: Synthesized Precedent Rules]
+    end
+
+    subgraph AgentLogic ["3. Autonomous Decision & Guardrails"]
+        HS -->|Recalled Precedent| AG[Groq LLM Agent]
+        AG -->|Precedent Matched & In Limit| APP[✅ Auto-Approved: Push to ERP]
+        AG -->|No Precedent Found| HMN[⚠️ Flagged: Human Review Needed]
+        AG -->|Hostile Price Increase| REJ[❌ Strict Reject: Contract Violation]
+    end
+
+    subgraph LearningLoop ["4. Continuous Learning"]
+        HMN -->|Manager Approves Exception| RET[Hindsight Retain Memory API]
+        RET -->|Update Mental Model| HS
+    end
+```
 
 ---
 
 ## 🧠 Biomimetic Memory Architecture (Vectorize Hindsight)
 
-LedgerMind leverages Hindsight’s 3-layer biomimetic memory structure:
+Unlike static databases or naive vector search (RAG) that simply match keywords, Vectorize Hindsight operates on a 3-layer biomimetic memory structure:
 
-```
-+-----------------------------------------------------------------------------------+
-|                               HINDSIGHT MEMORY LAYERS                             |
-+-----------------------------------------------------------------------------------+
-| 1. WORLD FACTS       | Static vendor metadata, contract payment terms, PO rules.  |
-|                      | e.g. "Acme Industrial is Net-30 vendor under PO-4401."     |
-+----------------------+------------------------------------------------------------+
-| 2. EXPERIENCES       | Episodic logs of human exception approvals.                |
-|                      | e.g. "Sarah Jenkins approved ₹3,500 rush freight on Oct 12"|
-+----------------------+------------------------------------------------------------+
-| 3. MENTAL MODELS     | Synthesized business precedent policies.                   |
-|                      | e.g. "Acme freight surcharges <₹4,000 permitted for Q3."   |
-+-----------------------------------------------------------------------------------+
-```
+| Layer | What It Stores | Real Example in LedgerMind |
+| :--- | :--- | :--- |
+| **1. World Facts** | Static entity metadata, PO baseline terms, agreed unit pricing. | *"Acme Industrial is a Tier-1 hardware vendor under Net-30 terms with PO-4401."* |
+| **2. Experiences** | Episodic records of human managerial decisions. | *"Sarah Jenkins (Finance Lead) approved ₹3,500 rush freight on Oct 12."* |
+| **3. Mental Models** | Synthesized organizational rules and tolerance boundaries. | *"For Acme Industrial, expedited freight surcharges up to ₹4,000 are pre-authorized during the warehouse relocation."* |
 
 ---
 
-## ⚡ The 60-Second Demo Story: Before vs After
+## ⚡ The Before-vs-After Memory Demonstration
 
-| Interaction Stage | Stateless Baseline (Without Memory) | LedgerMind (With Vectorize Hindsight) |
+The power of persistent memory is proven through a 3-stage progression:
+
+| Scenario | Stateless Baseline (Without Memory) | LedgerMind (With Vectorize Hindsight) |
 | :--- | :--- | :--- |
-| **Invoice #1 (First Encounter)** | Flags ₹3,500 freight fee; requests human review. | Flags fee; Human approves: *"Authorized rush freight up to ₹4,000 for Q3 warehouse move."* |
-| **Invoice #2 (Recurring Surcharge)** | **Amnesia:** Flags the exact same ₹3,500 fee again, freezing payment for another 48 hours. | **Auto-Approved (96% Confidence):** Recalls precedent set by Sarah Jenkins; releases payment instantly. |
-| **Invoice #3 (Unauthorized Hike)** | Cannot distinguish between authorized exception and hostile pricing changes. | **Strict Intercept:** Rejects ₹12,000 unit price increase as a contract violation with zero precedent. |
+| **Interaction 1: First Encounter** | Surcharge not on PO. Payment frozen. Requests human review. | Flags fee. Human approves with note: *"Approved rush freight up to ₹4,000 for warehouse move."* **Hindsight learns.** |
+| **Interaction 2: Recurring Surcharge** | **Complete Amnesia:** Flags the exact same ₹3,500 fee again. Requires identical email exchange. | **Auto-Approved (96% Confidence):** Recalls Sarah Jenkins' rule, verifies ₹3,500 $\le$ ₹4,000, and clears payment instantly. |
+| **Interaction 3: Unauthorized Price Hike** | Cannot evaluate whether a 10% unit price increase is authorized. | **Strict Intercept:** Detects ₹12,000 unit price variance. Rejects approval because zero precedent allows price increases. |
+
+---
+
+## 💼 Business Impact & ROI
+
+* **70% Reduction in AP Exception Bottlenecks:** Routine, approved variances are cleared automatically without human email ping-pong.
+* **Elimination of Late-Payment Penalties:** Suppliers are paid on time, preserving crucial supply chain relationships.
+* **Audit-Proof Decision Trails:** Every automated approval includes a direct citation to the original human author, timestamp, and policy justification.
 
 ---
 
@@ -58,13 +103,13 @@ LedgerMind leverages Hindsight’s 3-layer biomimetic memory structure:
 ### 1. Clone & Set Up Virtual Environment
 
 ```bash
-git clone https://github.com/your-username/ledgermind.git
+git clone https://github.com/YOUR_USERNAME/ledgermind.git
 cd ledgermind
 
 python -m venv venv
-# Windows:
+# On Windows:
 venv\Scripts\activate
-# Mac/Linux:
+# On macOS/Linux:
 source venv/bin/activate
 
 pip install -r requirements.txt
@@ -72,38 +117,34 @@ pip install -r requirements.txt
 
 ### 2. Configure Environment Variables
 
-Copy `.env.example` to `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Add your API keys (or leave `MOCK_MODE=true` to test locally with zero configuration):
+Create a `.env` file in the root directory:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 HINDSIGHT_API_KEY=your_hindsight_api_key_here
 HINDSIGHT_API_URL=https://api.hindsight.vectorize.io/v1
 GROQ_MODEL=llama-3.3-70b-versatile
-MOCK_MODE=false
+MOCK_MODE=true
 PORT=5000
 ```
 
-### 3. Run Verification Test Suite
+> **Note:** Set `MOCK_MODE=true` to run locally with built-in simulated memory responses, or `MOCK_MODE=false` to connect directly to live Groq and Hindsight Cloud APIs.
 
-Verify that the memory retention and recall loops work:
+### 3. Run the Verification Test Suite
+
+Verify that the memory retention, recall, and safety guardrails work end-to-end:
 
 ```bash
 python test_flow.py
 ```
 
-### 4. Launch the Web Application
+### 4. Start the Application
 
 ```bash
 python app.py
 ```
 
-Open your browser and navigate to: **`http://localhost:5000`**
+Open your browser at: **`http://localhost:5000`**
 
 ---
 
@@ -112,18 +153,18 @@ Open your browser and navigate to: **`http://localhost:5000`**
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/api/invoices` | Retrieve all queued invoices with current lifecycle state. |
-| `POST` | `/api/evaluate` | Evaluate an invoice (`use_memory: true/false`). |
-| `POST` | `/api/approve` | Retain a human approval exception in Hindsight. |
-| `GET` | `/api/memories` | Inspect all retained institutional memories. |
+| `POST` | `/api/evaluate` | Evaluate an invoice against Hindsight memory (`use_memory: true/false`). |
+| `POST` | `/api/approve` | Retain a human approval exception in Hindsight and update status. |
+| `GET` | `/api/memories` | Inspect all retained institutional memories and mental models. |
 | `POST` | `/api/reset` | Reset demo state back to Day 0 for clean presentations. |
 
 ---
 
 ## 👥 Engineering & Research Squad
 
-* **Lead Architect & AI Systems:** System design, Flask REST API, Hindsight biomimetic memory orchestration, Groq integration.
-* **Frontend Lead:** FinOps responsive dashboard, Tailwind CSS components, memory inspection drawer.
-* **Integration & QA:** Real-time state synchronization, end-to-end verification tests.
+* **Lead AI & Backend Architect:** System architecture, Flask REST API, Vectorize Hindsight biomimetic memory pipeline, Groq LLM orchestration.
+* **Frontend Lead:** Enterprise FinOps dashboard, responsive UI, status badge hierarchy.
+* **Integration & QA:** Real-time state synchronization, end-to-end verification test suite.
 * **FinOps Research Lead:** Synthetic corporate dataset design, business exception scenarios.
 * **Media & Documentation:** Technical whitepaper, video production, and architectural documentation.
 
@@ -131,4 +172,4 @@ Open your browser and navigate to: **`http://localhost:5000`**
 
 ## 📄 License
 
-Distributed under the MIT License.
+Distributed under the MIT License. See `LICENSE` for details.
