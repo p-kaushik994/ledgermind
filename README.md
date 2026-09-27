@@ -98,67 +98,24 @@ The power of persistent memory is proven through a 3-stage progression:
 
 ---
 
-## 🚀 Quickstart Guide
+## 🚀 Live Demo
 
-### 1. Clone & Set Up Virtual Environment
+LedgerMind is deployed as a web application and can be accessed directly
+without any local setup.
 
-```bash
-git clone https://github.com/YOUR_USERNAME/ledgermind.git
-cd ledgermind
+### 🌐 Launch the Application
 
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
+**Live Website:** https://ledgermind.onrender.com
 
-pip install -r requirements.txt
-```
+The deployed application provides an interactive demonstration of:
 
-### 2. Configure Environment Variables
+- Invoice exception detection
+- Hindsight-based precedent recall
+- Human approval and memory retention
+- Repeated invoice evaluation
+- Guardrail-based exception handling
 
-Create a `.env` file in the root directory:
-
-```env
-GROQ_API_KEY=your_groq_api_key_here
-HINDSIGHT_API_KEY=your_hindsight_api_key_here
-HINDSIGHT_API_URL=https://api.hindsight.vectorize.io/v1
-GROQ_MODEL=llama-3.3-70b-versatile
-MOCK_MODE=true
-PORT=5000
-```
-
-> **Note:** Set `MOCK_MODE=true` to run locally with built-in simulated memory responses, or `MOCK_MODE=false` to connect directly to live Groq and Hindsight Cloud APIs.
-
-### 3. Run the Verification Test Suite
-
-Verify that the memory retention, recall, and safety guardrails work end-to-end:
-
-```bash
-python test_flow.py
-```
-
-### 4. Start the Application
-
-```bash
-python app.py
-```
-
-Open your browser at: **`http://localhost:5000`**
-
----
-
-## 🛠️ REST API Specification
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/invoices` | Retrieve all queued invoices with current lifecycle state. |
-| `POST` | `/api/evaluate` | Evaluate an invoice against Hindsight memory (`use_memory: true/false`). |
-| `POST` | `/api/approve` | Retain a human approval exception in Hindsight and update status. |
-| `GET` | `/api/memories` | Inspect all retained institutional memories and mental models. |
-| `POST` | `/api/reset` | Reset demo state back to Day 0 for clean presentations. |
-
----
+> **Note:** The application uses synthetic data for demonstration purposes.
 
 ## 👥 Engineering & Research Squad
 
