@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LedgerMind | Autonomous FinOps Precedent Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- TOP ENTERPRISE NAVIGATION BAR -->
+  <header class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & ERP Status -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm shadow-indigo-600/20">
+          <i class="fa-solid fa-receipt text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-lg font-bold text-slate-900 tracking-tight">LedgerMind</span>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 font-semibold">FinOps Copilot</span>
+          </div>
+          <div class="flex items-center space-x-1.5 mt-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-[11px] text-slate-500 font-medium">ERP Connected: SAP S/4HANA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls: Memory Mode Toggle & Demo Reset -->
+      <div class="flex items-center space-x-3">
+        <!-- Segmented Control for Memory Mode -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+          <span class="text-xs px-2.5 font-medium text-slate-500">Memory:</span>
+          <button id="toggle-stateless" onclick="setMemoryMode(false)" class="text-xs px-3 py-1.5 rounded-lg transition-all font-medium text-slate-600 hover:text-slate-900">
+            <i class="fa-solid fa-ban text-xs mr-1 text-slate-400"></i> OFF (Amnesia)
+          </button>
+          <button id="toggle-hindsight" onclick="setMemoryMode(true)" class="text-xs px-3 py-1.5 rounded-lg transition-all bg-white text-indigo-700 font-semibold shadow-xs border border-slate-200/80">
+            <i class="fa-solid fa-brain text-xs mr-1 text-indigo-600"></i> ON (Hindsight)
+          </button>
+        </div>
+
+        <!-- Reset Demo -->
+        <button onclick="resetDemo()" title="Reset back to Day 0 for demo rehearsal" class="px-3 py-1.5 text-xs rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-medium transition-colors flex items-center space-x-1.5 shadow-xs">
+          <i class="fa-solid fa-rotate-left text-xs text-amber-500"></i>
+          <span>Reset Demo</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col space-y-6 w-full">
+
+    <!-- KPI STATS CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Invoices in Queue</p>
+          <p id="stat-total" class="text-2xl font-bold text-slate-900 mt-1">6</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+          <i class="fa-solid fa-inbox"></i>
+        </div>
+      </div>
+
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Auto-Approved by Memory</p>
+          <p id="stat-auto-approved" class="text-2xl font-bold text-emerald-600 mt-1">0</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+      </div>
+
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Saved Team Rules</p>
+          <p id="stat-memories" class="text-2xl font-bold text-indigo-600 mt-1">0</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <i class="fa-solid fa-lightbulb"></i>
+        </div>
+      </div>
+
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Hours Saved</p>
+          <p id="stat-hours" class="text-2xl font-bold text-slate-900 mt-1">0.0 hrs</p>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2-COLUMN WORKBENCH -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-start">
+
+      <!-- LEFT: INVOICE FEED (7 COLS) -->
+      <div class="lg:col-span-7 flex flex-col space-y-4">
+        
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Incoming Invoices</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Invoices with extra fees compared to the original Purchase Order</p>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-xs">
+            6 Invoices
+          </span>
+        </div>
+
+        <!-- Invoices List Container -->
+        <div id="invoice-list" class="space-y-3">
+          <!-- Invoices dynamically injected here -->
+        </div>
+
+      </div>
+
+      <!-- RIGHT: AGENT BRAIN & MEMORY (5 COLS - CLEAN & SIMPLE) -->
+      <div class="lg:col-span-5 flex flex-col space-y-4">
+        
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Agent Brain & Memory</h2>
+            <p class="text-xs text-slate-500 mt-0.5">See what the agent thinks and what rules it recalls</p>
+          </div>
+          <span id="active-mode-label" class="text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">
+            Memory Active
+          </span>
+        </div>
+
+        <!-- LIVE AGENT EVALUATION CARD (CLEAN & SIMPLE) -->
+        <div id="evaluation-card" class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs hidden transition-all space-y-3.5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Agent Verdict</span>
+            <span id="eval-status-badge" class="text-xs px-3 py-1 rounded-full font-bold"></span>
+          </div>
+
+          <!-- Quick Summary -->
+          <div>
+            <p id="eval-summary" class="text-sm font-bold text-slate-900"></p>
+            <p id="eval-reasoning" class="text-xs text-slate-600 mt-1 leading-relaxed"></p>
+          </div>
+
+          <!-- Memory Citation Box (Clean & Short) -->
+          <div id="eval-memory-box" class="hidden p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-100 space-y-1.5">
+            <div class="flex items-center justify-between text-xs text-indigo-900 font-bold">
+              <span class="flex items-center">
+                <i class="fa-solid fa-bookmark text-indigo-600 mr-1.5"></i> Matched Past Rule:
+              </span>
+              <span id="eval-memory-date" class="text-[11px] font-normal text-indigo-600"></span>
+            </div>
+            <p id="eval-memory-text" class="text-xs text-slate-800 font-medium leading-snug"></p>
+            <p class="text-[11px] text-indigo-700 font-semibold pt-1 border-t border-indigo-200/50">
+              <i class="fa-solid fa-user-check text-[10px] mr-1"></i> <span id="eval-memory-author"></span>
+            </p>
+          </div>
+        </div>
+
+        <!-- RETAINED RULES BANK (CLEAN & SIMPLE) -->
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs flex flex-col space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 flex items-center">
+                <i class="fa-solid fa-lightbulb text-amber-500 mr-2 text-xs"></i> Saved Company Rules
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Rules the agent learned from your approvals.</p>
+            </div>
+            <span id="memory-count-badge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+              0 rules
+            </span>
+          </div>
+
+          <div id="memory-list" class="space-y-2.5 max-h-[460px] overflow-y-auto pr-1">
+            <div id="no-memories-text" class="text-center py-8 px-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+              <div class="w-8 h-8 rounded-full bg-slate-200/60 text-slate-400 flex items-center justify-center mx-auto mb-2 text-xs">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <p class="text-xs font-semibold text-slate-700">No Rules Saved Yet</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Click "Set Rule & Approve" on any invoice to teach the agent.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: APPROVE & ESTABLISH RULE -->
+  <div id="approval-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Approve & Save Rule</h3>
+            <p class="text-xs text-slate-500">Approve this fee and teach the agent for next time</p>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3.5">
+        <!-- Discrepancy Overview Box -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs space-y-1.5">
+          <div class="flex justify-between">
+            <span class="text-slate-500">Supplier:</span>
+            <span id="modal-vendor" class="text-slate-900 font-semibold"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Extra Fee:</span>
+            <span id="modal-discrepancy" class="text-slate-900 font-semibold"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Amount:</span>
+            <span id="modal-amount" class="text-amber-700 font-bold"></span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Your Name & Role</label>
+          <input id="modal-approver" type="text" value="Sarah Jenkins (Finance Lead)" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Reason / Policy Note</label>
+          <textarea id="modal-reason" rows="3" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 leading-relaxed" placeholder="e.g. Approved rush air freight up to ₹4,000 during warehouse relocation."></textarea>
+          <p class="text-[11px] text-slate-500 mt-1">The agent remembers this reason and will auto-approve matching fees in the future.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
+        <button onclick="closeModal()" class="px-4 py-2 text-xs rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">
+          Cancel
+        </button>
+        <button onclick="submitApproval()" class="px-4 py-2 text-xs rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex items-center space-x-1.5 shadow-sm shadow-indigo-600/30">
+          <i class="fa-solid fa-floppy-disk text-xs"></i>
+          <span>Save Rule & Approve</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    let useMemory = true;
+    let currentInvoices = [];
+    let activeModalInvoiceId = null;
+
+    function formatINR(val) {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 2
+      }).format(val);
+    }
+
+    function setMemoryMode(enableMemory) {
+      useMemory = enableMemory;
+      const btnHindsight = document.getElementById("toggle-hindsight");
+      const btnStateless = document.getElementById("toggle-stateless");
+      const modeLabel = document.getElementById("active-mode-label");
+
+      if (enableMemory) {
+        btnHindsight.className = "text-xs px-3 py-1.5 rounded-lg transition-all bg-white text-indigo-700 font-semibold shadow-xs border border-slate-200/80";
+        btnStateless.className = "text-xs px-3 py-1.5 rounded-lg transition-all font-medium text-slate-600 hover:text-slate-900";
+        modeLabel.textContent = "Memory Active";
+        modeLabel.className = "text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full";
+      } else {
+        btnStateless.className = "text-xs px-3 py-1.5 rounded-lg transition-all bg-white text-rose-700 font-semibold shadow-xs border border-rose-200";
+        btnHindsight.className = "text-xs px-3 py-1.5 rounded-lg transition-all font-medium text-slate-600 hover:text-slate-900";
+        modeLabel.textContent = "Memory OFF (Amnesia)";
+        modeLabel.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-full";
+      }
+    }
+
+    async function fetchInvoices() {
+      try {
+        const res = await fetch("/api/invoices");
+        const data = await res.json();
+        if (data.success) {
+          currentInvoices = data.invoices;
+          renderInvoices();
+          updateKPIs();
+        }
+      } catch (err) {
+        console.error("Failed to load invoices", err);
+      }
+    }
+
+    async function fetchMemories() {
+      try {
+        const res = await fetch("/api/memories");
+        const data = await res.json();
+        if (data.success) {
+          renderMemories(data.memories);
+          document.getElementById("stat-memories").textContent = data.memories.length;
+          document.getElementById("memory-count-badge").textContent = `${data.memories.length} rules`;
+        }
+      } catch (err) {
+        console.error("Failed to load memories", err);
+      }
+    }
+
+    function renderInvoices() {
+      const container = document.getElementById("invoice-list");
+      container.innerHTML = "";
+
+      currentInvoices.forEach(inv => {
+        const hasDiscrepancy = inv.discrepancy_amount > 0;
+        let badgeColor = "bg-slate-100 text-slate-600 border-slate-200";
+        let statusText = inv.status;
+
+        if (inv.status === "AUTO_APPROVED") {
+          badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-200";
+          statusText = '<i class="fa-solid fa-sparkles mr-1 text-emerald-600"></i> Auto-Approved';
+        } else if (inv.status === "MANUALLY_APPROVED") {
+          badgeColor = "bg-indigo-50 text-indigo-700 border-indigo-200";
+          statusText = '<i class="fa-solid fa-check mr-1 text-indigo-600"></i> Rule Saved';
+        } else if (inv.status === "FLAGGED") {
+          badgeColor = "bg-amber-50 text-amber-700 border-amber-200";
+          statusText = '<i class="fa-solid fa-triangle-exclamation mr-1 text-amber-600"></i> Needs Review';
+        } else if (inv.status === "MATCHED") {
+          badgeColor = "bg-sky-50 text-sky-700 border-sky-200";
+          statusText = '<i class="fa-solid fa-check-double mr-1 text-sky-600"></i> Matched';
+        }
+
+        const card = document.createElement("div");
+        card.className = "bg-white border border-slate-200 rounded-2xl p-4 transition-all hover:border-slate-300 shadow-xs space-y-3";
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-sm font-bold text-slate-900">${inv.vendor_name}</span>
+                <span class="text-xs px-2 py-0.5 rounded-md font-mono bg-slate-100 text-slate-600 border border-slate-200">${inv.id}</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">${inv.po_number} • Date: ${inv.invoice_date}</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-full border font-semibold ${badgeColor}">
+              ${statusText}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 py-2 px-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs">
+            <div>
+              <span class="text-slate-500 text-[11px] block font-medium">Original PO</span>
+              <span class="font-mono text-slate-800 font-semibold">${formatINR(inv.po_amount)}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 text-[11px] block font-medium">Billed Total</span>
+              <span class="font-mono text-slate-800 font-semibold">${formatINR(inv.invoice_amount)}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 text-[11px] block font-medium">Variance</span>
+              <span class="font-mono font-bold ${hasDiscrepancy ? 'text-amber-700' : 'text-slate-600'}">
+                ${hasDiscrepancy ? `+${formatINR(inv.discrepancy_amount)}` : '₹0.00'}
+              </span>
+            </div>
+          </div>
+
+          ${hasDiscrepancy ? `
+            <div class="flex items-center justify-between text-xs pt-0.5">
+              <span class="text-slate-600 text-xs flex items-center font-medium">
+                <i class="fa-solid fa-tag text-[10px] text-amber-500 mr-1.5"></i> ${inv.discrepancy_type}
+              </span>
+              <div class="flex items-center space-x-2">
+                <button onclick="evaluateInvoice('${inv.id}')" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors flex items-center space-x-1 shadow-xs">
+                  <i class="fa-solid fa-microchip text-[11px]"></i>
+                  <span>Evaluate with Agent</span>
+                </button>
+                <button onclick="openApprovalModal('${inv.id}')" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors flex items-center space-x-1 border border-slate-300 shadow-xs">
+                  <i class="fa-solid fa-check text-[11px] text-emerald-600"></i>
+                  <span>Set Rule & Approve</span>
+                </button>
+              </div>
+            </div>
+          ` : `
+            <div class="flex items-center justify-between text-xs pt-0.5">
+              <span class="text-emerald-700 text-xs font-medium flex items-center">
+                <i class="fa-solid fa-check text-[10px] mr-1.5"></i> Matches PO exactly
+              </span>
+              <button onclick="evaluateInvoice('${inv.id}')" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
+                Verify
+              </button>
+            </div>
+          `}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderMemories(memories) {
+      const container = document.getElementById("memory-list");
+      const noMemText = document.getElementById("no-memories-text");
+
+      if (!memories || memories.length === 0) {
+        container.innerHTML = "";
+        container.appendChild(noMemText);
+        noMemText.classList.remove("hidden");
+        return;
+      }
+
+      noMemText.classList.add("hidden");
+      container.innerHTML = "";
+
+      memories.forEach(m => {
+        const item = document.createElement("div");
+        item.className = "p-3 rounded-xl bg-white border border-slate-200 space-y-1.5 text-xs shadow-xs hover:border-indigo-300 transition-colors";
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-900">${m.vendor_name}</span>
+            <span class="text-[10px] text-slate-500 font-medium">${m.timestamp}</span>
+          </div>
+          <p class="text-slate-700 leading-snug font-medium">${m.precedent_note || m.rule}</p>
+          <div class="text-[11px] text-indigo-700 font-semibold pt-1 border-t border-slate-100 flex items-center">
+            <i class="fa-solid fa-user-check text-[10px] mr-1"></i> Added by: ${m.approved_by}
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    async function evaluateInvoice(id) {
+      try {
+        const res = await fetch("/api/evaluate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ invoice_id: id, use_memory: useMemory })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showEvaluation(data.evaluation);
+          fetchInvoices();
+        }
+      } catch (err) {
+        alert("Evaluation failed. Make sure Flask backend is running.");
+      }
+    }
+
+    function showEvaluation(evalData) {
+      const card = document.getElementById("evaluation-card");
+      const badge = document.getElementById("eval-status-badge");
+      const summary = document.getElementById("eval-summary");
+      const reasoning = document.getElementById("eval-reasoning");
+      const memoryBox = document.getElementById("eval-memory-box");
+
+      card.classList.remove("hidden");
+      summary.textContent = evalData.summary;
+      reasoning.textContent = evalData.reasoning;
+
+      if (evalData.decision === "AUTO_APPROVED") {
+        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        badge.textContent = `Auto-Approved (${Math.round(evalData.confidence * 100)}%)`;
+      } else if (evalData.decision === "REJECTED_AUDIT") {
+        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-rose-50 text-rose-700 border border-rose-200";
+        badge.textContent = "Rejected (Policy Violation)";
+      } else if (evalData.decision === "MATCHED") {
+        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-sky-50 text-sky-700 border border-sky-200";
+        badge.textContent = "Verified Match";
+      } else {
+        badge.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-amber-50 text-amber-700 border border-amber-200";
+        badge.textContent = evalData.used_memory ? "Needs Human Review" : "Flagged (Amnesia)";
+      }
+
+      if (evalData.memory_recalled) {
+        memoryBox.classList.remove("hidden");
+        document.getElementById("eval-memory-text").textContent = `"${evalData.memory_recalled.precedent_note || evalData.memory_recalled.rule}"`;
+        document.getElementById("eval-memory-author").textContent = evalData.memory_recalled.approved_by;
+        document.getElementById("eval-memory-date").textContent = evalData.memory_recalled.timestamp;
+      } else {
+        memoryBox.classList.add("hidden");
+      }
+    }
+
+    function openApprovalModal(id) {
+      activeModalInvoiceId = id;
+      const inv = currentInvoices.find(i => i.id === id);
+      if (!inv) return;
+
+      document.getElementById("modal-vendor").textContent = inv.vendor_name;
+      document.getElementById("modal-discrepancy").textContent = inv.discrepancy_type;
+      document.getElementById("modal-amount").textContent = `+${formatINR(inv.discrepancy_amount)}`;
+
+      if (inv.vendor_name.includes("Acme")) {
+        document.getElementById("modal-reason").value = "Approved rush freight up to ₹4,000 for Q3 warehouse relocation project.";
+      } else if (inv.vendor_name.includes("CloudScale")) {
+        document.getElementById("modal-reason").value = "Approved clean energy statutory cess under IT policy #12.";
+      } else {
+        document.getElementById("modal-reason").value = "Approved variance under manager discretion.";
+      }
+
+      document.getElementById("approval-modal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("approval-modal").classList.add("hidden");
+      activeModalInvoiceId = null;
+    }
+
+    async function submitApproval() {
+      if (!activeModalInvoiceId) return;
+
+      const approver = document.getElementById("modal-approver").value.trim();
+      const reason = document.getElementById("modal-reason").value.trim();
+
+      if (!reason) {
+        alert("Please provide a reason.");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/approve", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            invoice_id: activeModalInvoiceId,
+            approved_by: approver,
+            precedent_note: reason
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          closeModal();
+          fetchInvoices();
+          fetchMemories();
+        }
+      } catch (err) {
+        alert("Failed to submit approval.");
+      }
+    }
+
+    async function resetDemo() {
+      if (confirm("Reset demo back to Day 0? (Clears memories and reloads sample invoices)")) {
+        try {
+          await fetch("/api/reset", { method: "POST" });
+          document.getElementById("evaluation-card").classList.add("hidden");
+          fetchInvoices();
+          fetchMemories();
+        } catch (err) {
+          alert("Reset failed.");
+        }
+      }
+    }
+
+    function updateKPIs() {
+      const autoCount = currentInvoices.filter(i => i.status === "AUTO_APPROVED").length;
+      document.getElementById("stat-auto-approved").textContent = autoCount;
+      document.getElementById("stat-hours").textContent = (autoCount * 2.5).toFixed(1) + " hrs";
+      document.getElementById("stat-total").textContent = currentInvoices.length;
+    }
+
+    // Initial load
+    fetchInvoices();
+    fetchMemories();
+  </script>
+</body>
+</html>

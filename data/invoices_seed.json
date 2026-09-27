@@ -1,0 +1,96 @@
+[
+  {
+    "id": "INV-2024-001",
+    "vendor_name": "Acme Industrial Supplies",
+    "po_number": "PO-4401",
+    "po_amount": 50000.00,
+    "invoice_amount": 53500.00,
+    "discrepancy_amount": 3500.00,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      { "description": "Standard Industrial Bearing Kits (x50)", "po_rate": 50000.00, "billed_rate": 50000.00 },
+      { "description": "Priority Rush Express Delivery Surcharge", "po_rate": 0.00, "billed_rate": 3500.00 }
+    ],
+    "invoice_date": "2024-10-12",
+    "status": "FLAGGED",
+    "notes": "Freight surcharge not included on original Purchase Order PO-4401."
+  },
+  {
+    "id": "INV-2024-002",
+    "vendor_name": "Acme Industrial Supplies",
+    "po_number": "PO-4489",
+    "po_amount": 42000.00,
+    "invoice_amount": 45500.00,
+    "discrepancy_amount": 3500.00,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      { "description": "Hydraulic Seal Replacements (x20)", "po_rate": 42000.00, "billed_rate": 42000.00 },
+      { "description": "Priority Rush Express Delivery Surcharge", "po_rate": 0.00, "billed_rate": 3500.00 }
+    ],
+    "invoice_date": "2024-10-24",
+    "status": "PENDING",
+    "notes": "Recurring expedited freight fee on warehouse parts replenishment."
+  },
+  {
+    "id": "INV-2024-003",
+    "vendor_name": "NovaTech Microelectronics",
+    "po_number": "PO-5102",
+    "po_amount": 120000.00,
+    "invoice_amount": 132000.00,
+    "discrepancy_amount": 12000.00,
+    "discrepancy_type": "Unauthorized Unit Price Increase",
+    "line_items": [
+      { "description": "Embedded FPGA Sensor Modules (x100)", "po_rate": 120000.00, "billed_rate": 132000.00 }
+    ],
+    "invoice_date": "2024-10-26",
+    "status": "PENDING",
+    "notes": "Billed unit price is ₹1,320/unit vs agreed PO contract price of ₹1,200/unit."
+  },
+  {
+    "id": "INV-2024-004",
+    "vendor_name": "CloudScale Infrastructure",
+    "po_number": "PO-6020",
+    "po_amount": 85000.00,
+    "invoice_amount": 86200.00,
+    "discrepancy_amount": 1200.00,
+    "discrepancy_type": "Clean Energy Green Cess Surcharge",
+    "line_items": [
+      { "description": "Dedicated Cloud Cluster Hosting", "po_rate": 85000.00, "billed_rate": 85000.00 },
+      { "description": "State Clean Energy Statutory Cess", "po_rate": 0.00, "billed_rate": 1200.00 }
+    ],
+    "invoice_date": "2024-10-27",
+    "status": "PENDING",
+    "notes": "Statutory green energy cess adjustment applied to data center hosting."
+  },
+  {
+    "id": "INV-2024-005",
+    "vendor_name": "Apex Global Logistics",
+    "po_number": "PO-7119",
+    "po_amount": 60000.00,
+    "invoice_amount": 63500.00,
+    "discrepancy_amount": 3500.00,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      { "description": "Cross-State Ground Transport", "po_rate": 60000.00, "billed_rate": 60000.00 },
+      { "description": "Priority Express Handling Fee", "po_rate": 0.00, "billed_rate": 3500.00 }
+    ],
+    "invoice_date": "2024-10-28",
+    "status": "PENDING",
+    "notes": "New logistics carrier billing priority handling fee not in baseline agreement."
+  },
+  {
+    "id": "INV-2024-006",
+    "vendor_name": "Apex Global Logistics",
+    "po_number": "PO-7240",
+    "po_amount": 150000.00,
+    "invoice_amount": 150000.00,
+    "discrepancy_amount": 0.00,
+    "discrepancy_type": "None",
+    "line_items": [
+      { "description": "Full Truckload Freight Transport", "po_rate": 150000.00, "billed_rate": 150000.00 }
+    ],
+    "invoice_date": "2024-10-29",
+    "status": "MATCHED",
+    "notes": "Exact 3-way match against Purchase Order and Receiving Slip."
+  }
+]

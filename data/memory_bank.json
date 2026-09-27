@@ -1,0 +1,14 @@
+[
+  {
+    "id": "MEM-4601595C",
+    "vendor_name": "Acme Industrial Supplies",
+    "invoice_id": "INV-2024-001",
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "discrepancy_amount": 3500.0,
+    "precedent_note": "Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+    "approved_by": "Sarah Jenkins (Finance Lead)",
+    "timestamp": "2026-09-27 22:12",
+    "rule": "Acme Industrial Supplies: Exception authorized for 'Expedited Air Freight Surcharge' up to \u20b93,500.00. Justification: Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+    "type": "EXPERIENCE_AND_MENTAL_MODEL"
+  }
+]

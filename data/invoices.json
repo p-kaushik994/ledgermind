@@ -1,0 +1,177 @@
+[
+  {
+    "id": "INV-2024-001",
+    "vendor_name": "Acme Industrial Supplies",
+    "po_number": "PO-4401",
+    "po_amount": 50000.0,
+    "invoice_amount": 53500.0,
+    "discrepancy_amount": 3500.0,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      {
+        "description": "Standard Industrial Bearing Kits (x50)",
+        "po_rate": 50000.0,
+        "billed_rate": 50000.0
+      },
+      {
+        "description": "Priority Rush Express Delivery Surcharge",
+        "po_rate": 0.0,
+        "billed_rate": 3500.0
+      }
+    ],
+    "invoice_date": "2024-10-12",
+    "status": "AUTO_APPROVED",
+    "notes": "Freight surcharge not included on original Purchase Order PO-4401.",
+    "evaluation": {
+      "decision": "AUTO_APPROVED",
+      "status_badge": "Auto-Approved",
+      "confidence": 0.96,
+      "summary": "Matches past approval by Sarah Jenkins (Finance Lead).",
+      "reasoning": "This extra \u20b93,500.00 fee was already approved by Sarah Jenkins (Finance Lead) for: 'Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.'. Payment is cleared automatically.",
+      "memory_recalled": {
+        "id": "MEM-4601595C",
+        "vendor_name": "Acme Industrial Supplies",
+        "invoice_id": "INV-2024-001",
+        "discrepancy_type": "Expedited Air Freight Surcharge",
+        "discrepancy_amount": 3500.0,
+        "precedent_note": "Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+        "approved_by": "Sarah Jenkins (Finance Lead)",
+        "timestamp": "2026-09-27 22:12",
+        "rule": "Acme Industrial Supplies: Exception authorized for 'Expedited Air Freight Surcharge' up to \u20b93,500.00. Justification: Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+        "type": "EXPERIENCE_AND_MENTAL_MODEL"
+      },
+      "used_memory": true
+    },
+    "precedent_applied": {
+      "id": "MEM-4601595C",
+      "vendor_name": "Acme Industrial Supplies",
+      "invoice_id": "INV-2024-001",
+      "discrepancy_type": "Expedited Air Freight Surcharge",
+      "discrepancy_amount": 3500.0,
+      "precedent_note": "Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+      "approved_by": "Sarah Jenkins (Finance Lead)",
+      "timestamp": "2026-09-27 22:12",
+      "rule": "Acme Industrial Supplies: Exception authorized for 'Expedited Air Freight Surcharge' up to \u20b93,500.00. Justification: Approved rush freight up to \u20b94,000 for Q3 warehouse relocation project.",
+      "type": "EXPERIENCE_AND_MENTAL_MODEL"
+    }
+  },
+  {
+    "id": "INV-2024-002",
+    "vendor_name": "Acme Industrial Supplies",
+    "po_number": "PO-4489",
+    "po_amount": 42000.0,
+    "invoice_amount": 45500.0,
+    "discrepancy_amount": 3500.0,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      {
+        "description": "Hydraulic Seal Replacements (x20)",
+        "po_rate": 42000.0,
+        "billed_rate": 42000.0
+      },
+      {
+        "description": "Priority Rush Express Delivery Surcharge",
+        "po_rate": 0.0,
+        "billed_rate": 3500.0
+      }
+    ],
+    "invoice_date": "2024-10-24",
+    "status": "PENDING",
+    "notes": "Recurring expedited freight fee on warehouse parts replenishment."
+  },
+  {
+    "id": "INV-2024-003",
+    "vendor_name": "NovaTech Microelectronics",
+    "po_number": "PO-5102",
+    "po_amount": 120000.0,
+    "invoice_amount": 132000.0,
+    "discrepancy_amount": 12000.0,
+    "discrepancy_type": "Unauthorized Unit Price Increase",
+    "line_items": [
+      {
+        "description": "Embedded FPGA Sensor Modules (x100)",
+        "po_rate": 120000.0,
+        "billed_rate": 132000.0
+      }
+    ],
+    "invoice_date": "2024-10-26",
+    "status": "PENDING",
+    "notes": "Billed unit price is \u20b91,320/unit vs agreed PO contract price of \u20b91,200/unit.",
+    "evaluation": {
+      "decision": "FLAGGED",
+      "status_badge": "Flagged (Amnesia)",
+      "confidence": 0.5,
+      "summary": "Extra fee of \u20b912,000.00 detected.",
+      "reasoning": "I have no memory of past approvals. Because I cannot remember previous decisions, payment is frozen. A manager must manually review this again.",
+      "memory_recalled": null,
+      "used_memory": false
+    }
+  },
+  {
+    "id": "INV-2024-004",
+    "vendor_name": "CloudScale Infrastructure",
+    "po_number": "PO-6020",
+    "po_amount": 85000.0,
+    "invoice_amount": 86200.0,
+    "discrepancy_amount": 1200.0,
+    "discrepancy_type": "Clean Energy Green Cess Surcharge",
+    "line_items": [
+      {
+        "description": "Dedicated Cloud Cluster Hosting",
+        "po_rate": 85000.0,
+        "billed_rate": 85000.0
+      },
+      {
+        "description": "State Clean Energy Statutory Cess",
+        "po_rate": 0.0,
+        "billed_rate": 1200.0
+      }
+    ],
+    "invoice_date": "2024-10-27",
+    "status": "PENDING",
+    "notes": "Statutory green energy cess adjustment applied to data center hosting."
+  },
+  {
+    "id": "INV-2024-005",
+    "vendor_name": "Apex Global Logistics",
+    "po_number": "PO-7119",
+    "po_amount": 60000.0,
+    "invoice_amount": 63500.0,
+    "discrepancy_amount": 3500.0,
+    "discrepancy_type": "Expedited Air Freight Surcharge",
+    "line_items": [
+      {
+        "description": "Cross-State Ground Transport",
+        "po_rate": 60000.0,
+        "billed_rate": 60000.0
+      },
+      {
+        "description": "Priority Express Handling Fee",
+        "po_rate": 0.0,
+        "billed_rate": 3500.0
+      }
+    ],
+    "invoice_date": "2024-10-28",
+    "status": "PENDING",
+    "notes": "New logistics carrier billing priority handling fee not in baseline agreement."
+  },
+  {
+    "id": "INV-2024-006",
+    "vendor_name": "Apex Global Logistics",
+    "po_number": "PO-7240",
+    "po_amount": 150000.0,
+    "invoice_amount": 150000.0,
+    "discrepancy_amount": 0.0,
+    "discrepancy_type": "None",
+    "line_items": [
+      {
+        "description": "Full Truckload Freight Transport",
+        "po_rate": 150000.0,
+        "billed_rate": 150000.0
+      }
+    ],
+    "invoice_date": "2024-10-29",
+    "status": "MATCHED",
+    "notes": "Exact 3-way match against Purchase Order and Receiving Slip."
+  }
+]
