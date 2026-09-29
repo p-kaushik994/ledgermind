@@ -58,7 +58,7 @@ def evaluate():
     if not target_invoice:
         return jsonify({"success": False, "error": "Invoice not found"}), 404
 
-    # Run agent evaluation
+    # Run evaluation
     eval_result = agent.evaluate_invoice(target_invoice, use_memory=use_memory)
 
     # Update invoice state if decision made
@@ -103,6 +103,8 @@ def approve_exception():
         approved_by=approved_by
     )
 
+
+    
     # Update status to manually approved
     target_invoice["status"] = "MANUALLY_APPROVED"
     target_invoice["precedent_applied"] = memory_created
@@ -120,6 +122,8 @@ def get_memories():
     memories = hindsight_service.get_all_memories()
     return jsonify({"success": True, "memories": memories})
 
+
+
 @app.route("/api/reset", methods=["POST"])
 def reset_demo():
     """Resets memory bank and invoices to original state for clean demo rehearsals."""
@@ -129,6 +133,8 @@ def reset_demo():
             seed = json.load(f)
         save_invoices(seed)
     return jsonify({"success": True, "message": "Demo state reset to Day 0 successfully."})
+
+
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
