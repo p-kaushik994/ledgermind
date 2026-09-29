@@ -19,7 +19,7 @@
 
 ---
 
-## 📌 Executive Summary & Problem Statement
+## 📌 Executive Summary 
 
 In corporate finance operations, up to **20% of supplier invoices** trigger discrepancy flags against original Purchase Orders—often due to emergency freight fees, statutory green cesses, or seasonal delivery surcharges.
 
