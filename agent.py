@@ -5,6 +5,7 @@ from hindsight_service import hindsight_service
 
 load_dotenv()
 
+
 class LedgerMindAgent:
     def __init__(self):
         self.groq_api_key = os.getenv("GROQ_API_KEY", "").strip()
